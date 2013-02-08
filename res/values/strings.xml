@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ViikkiMenu</string>
+    <string name="title_activity_restaurant">Viikki Menu</string>
+
+    <string-array name="restaurants">
+        <item>Ladonlukko</item>
+        <item>Viikinkartano</item>
+        <item>Biokeskus</item>
+        <item>Tähkä</item>
+    </string-array>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_display_menu">SelectedMenu</string>
+
+</resources>
