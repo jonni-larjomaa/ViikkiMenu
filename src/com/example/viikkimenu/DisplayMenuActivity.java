@@ -16,6 +16,8 @@ public class DisplayMenuActivity extends Activity {
 		Bundle data = getIntent().getExtras();
 		restname = data.getString("restaurant");
 		
+		setTitle(restname);
+		
 		TextView rn = (TextView) findViewById(R.id.restaurantname);
 		rn.setText(restname);
 	}
