@@ -1,6 +1,8 @@
 package com.example.viikkimenu;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -12,10 +14,6 @@ abstract public class MenuBuilder {
     
     protected String url,menu,content;
 
-    public MenuBuilder(String url){
-        this.url = url;
-    }
-
     protected String getUrlContent(String url) throws IOException {
 
         HttpClient client = new DefaultHttpClient();
@@ -25,9 +23,11 @@ abstract public class MenuBuilder {
         client.getParams().setIntParameter(HttpConnectionParams.CONNECTION_TIMEOUT, Integer.valueOf(10000));
 
         content = client.execute(get, new BasicResponseHandler());
-
+        Logger.getLogger("ViikkiMenu").log(Level.INFO, content);
         return content;
     }
 
     abstract public String fetchMenu();
+    
+    abstract public String ParseMenuStr(String content);
 }

@@ -18,14 +18,8 @@ public class RestaurantActivity extends ListActivity {
         
         // get the restaurants and names.
         rests = this.getResources().getStringArray(R.array.restaurants);
+        setRestaurantListView(rests);
         
-        // create adapter
-        ArrayAdapter<String> restsAA = new ArrayAdapter<String>(this, 
-        														R.layout.restaurantlistitem,
-        														R.id.srestaurant,
-        														rests);
-        // set listadapter for restaurants.
-        this.setListAdapter(restsAA);
     }
 
 	@Override
@@ -33,6 +27,18 @@ public class RestaurantActivity extends ListActivity {
 		Intent i = new Intent(this, DisplayMenuActivity.class);
 		i.putExtra("restaurant", rests[position]);
 		startActivity(i);
+	}
+	
+	// convinience method for setting up list view for activity.
+	private void setRestaurantListView(String[] r){
+		
+		// create adapter
+        ArrayAdapter<String> restsAA = new ArrayAdapter<String>(this, 
+        														R.layout.restaurantlistitem,
+        														R.id.srestaurant,
+        														r);
+        // set list adapter for restaurants.
+        this.setListAdapter(restsAA);
 	}
     
     
