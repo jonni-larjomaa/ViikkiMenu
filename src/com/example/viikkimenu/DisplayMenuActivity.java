@@ -8,7 +8,9 @@ import android.app.*;
 public class DisplayMenuActivity extends Activity {
 
 	private String restname;
-	private MenuBuilder[] amb = {new Ladonlukko()};
+	private int position;
+	private MenuBuilder[] amb = {new Ladonlukko(),
+								 new Viikinkartano()};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +20,7 @@ public class DisplayMenuActivity extends Activity {
 		// get the data send through intent.
 		Bundle data = getIntent().getExtras();
 		restname = data.getString("restaurant");
+		position = data.getInt("position");
 		
 		// set title for restaurant name
 		setTitle(restname);
@@ -25,10 +28,10 @@ public class DisplayMenuActivity extends Activity {
 		// start async task to get menu-items. 
 		TextView menulist = (TextView) findViewById(R.id.restaurantname);
 		menulist.setMovementMethod(new ScrollingMovementMethod());
-		setMenu(menulist, restname);
+		setMenu(menulist, position);
 	}
 	
-	private void setMenu(TextView menulist, String r){
+	private void setMenu(TextView menulist, int pos){
 		// setup Progressdialog
 		ProgressDialog pd = new ProgressDialog(this);
 		
@@ -37,7 +40,7 @@ public class DisplayMenuActivity extends Activity {
 		
 		// create object from the restaurant name string.
 		// all restaurant names has their reflection class.
-		MenuBuilder mb = amb[0];
+		MenuBuilder mb = amb[pos];
 		
 		ma.execute(mb);
 	}

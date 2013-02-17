@@ -1,18 +1,21 @@
 package com.example.viikkimenu;
 
-import android.text.format.DateFormat;
 import java.io.IOException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Ladonlukko extends MenuBuilder{
+import android.text.format.DateFormat;
+
+public class Viikinkartano extends MenuBuilder {
 
 	String menustr = "";
 	String[] days = {"monday","tuesday", "wednesday","thursday","friday"};
+	
 	/**
      * Fetch and parse JSON formatted menu string from sodexo jsonfeed.
      * @return String 
@@ -25,7 +28,7 @@ public class Ladonlukko extends MenuBuilder{
         
         try {
 
-            url = "http://www.sodexo.fi/ruokalistat/output/weekly_json/440/"+date+"/fi";
+            url = "http://www.sodexo.fi/ruokalistat/output/weekly_json/494/"+date+"/fi";
             Logger.getLogger("ViikkiMenu").log(Level.INFO, url);
             content = getUrlContent(url);            
             menu = ParseMenuStr(content);
@@ -58,7 +61,12 @@ public class Ladonlukko extends MenuBuilder{
 				
 				for(int i=0; i < courses.length(); i++){
 				    JSONObject add = courses.getJSONObject(i);
-				    menustr += add.getString("title_fi")+" "+add.getString("price")+"€ ";
+				    if(add.has("title_fi")){
+				    	menustr += add.getString("title_fi");
+				    }
+				    if(add.has("price")){
+				    	menustr += add.getString("price")+"€ ";
+				    }
 				    if(add.has("properties")){
 				    	menustr += add.getString("properties");
 				    }

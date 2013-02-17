@@ -26,6 +26,7 @@ public class RestaurantActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Intent i = new Intent(this, DisplayMenuActivity.class);
 		i.putExtra("restaurant", rests[position]);
+		i.putExtra("position", position);
 		startActivity(i);
 	}
 	
