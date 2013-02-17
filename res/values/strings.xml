@@ -7,11 +7,15 @@
     <string-array name="restaurants">
         <item>Ladonlukko</item>
         <item>Viikinkartano</item>
-        <item>Biokeskus</item>
         <item>Tahka</item>
     </string-array>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
+    
+    <string-array name="days">
+        <item>monday</item>
+        <item>tuesday</item>
+        <item>wednesday</item>
+        <item>thursday</item>
+        <item>friday</item>
+    </string-array>
 
 </resources>

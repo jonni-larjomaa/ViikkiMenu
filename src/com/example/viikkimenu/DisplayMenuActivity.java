@@ -1,5 +1,7 @@
 package com.example.viikkimenu;
 
+import java.util.ArrayList;
+
 import android.os.*;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.*;
@@ -9,15 +11,21 @@ public class DisplayMenuActivity extends Activity {
 
 	private String restname;
 	private int position;
-	private MenuBuilder[] amb = {new Ladonlukko(),
-								 new Viikinkartano()};
+	private ArrayList<MenuBuilder> amb = new ArrayList<MenuBuilder>(); 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// set the layout to be used.
 		setContentView(R.layout.displaymenu);
 		
+		// add menucreator objects to list.
+		amb.add(new Ladonlukko());
+		amb.add(new Viikinkartano());
+		
 		// get the data send through intent.
+		// restaurant name and the index int.
 		Bundle data = getIntent().getExtras();
 		restname = data.getString("restaurant");
 		position = data.getInt("position");
@@ -25,23 +33,21 @@ public class DisplayMenuActivity extends Activity {
 		// set title for restaurant name
 		setTitle(restname);
 		
-		// start async task to get menu-items. 
+		// set menulist textView and have scrollingmovement enabled. 
 		TextView menulist = (TextView) findViewById(R.id.restaurantname);
 		menulist.setMovementMethod(new ScrollingMovementMethod());
-		setMenu(menulist, position);
-	}
-	
-	private void setMenu(TextView menulist, int pos){
+		
 		// setup Progressdialog
 		ProgressDialog pd = new ProgressDialog(this);
-		
+				
 		// setup async call
 		MenuAsync ma = new MenuAsync(menulist,pd);
 		
 		// create object from the restaurant name string.
 		// all restaurant names has their reflection class.
-		MenuBuilder mb = amb[pos];
+		MenuBuilder mb = amb.get(position);
 		
+		// execute async task
 		ma.execute(mb);
 	}
 }

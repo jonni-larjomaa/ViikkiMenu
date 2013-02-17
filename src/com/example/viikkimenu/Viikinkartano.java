@@ -54,11 +54,13 @@ public class Viikinkartano extends MenuBuilder {
 			JSONObject job = new JSONObject(content);
 			job = job.getJSONObject("menus");
 
+			// loop trhough days
 			for(int j=0;j < days.length; j++){
 				
 				JSONArray courses = job.getJSONArray(days[j]);
 				menustr += days[j]+":\n";
 				
+				//loop through menu items.
 				for(int i=0; i < courses.length(); i++){
 				    JSONObject add = courses.getJSONObject(i);
 				    if(add.has("title_fi")){
@@ -77,6 +79,8 @@ public class Viikinkartano extends MenuBuilder {
 		} catch (JSONException ex) {
 			Logger.getLogger("ViikkiMenu").log(Level.SEVERE, null, ex);
 		}
+		
+		// return formed menustring.
         return menustr;
     }
 }
