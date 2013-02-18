@@ -15,7 +15,6 @@
         android:id="@+id/separator"
         android:layout_width="fill_parent"
         android:layout_height="0.5dp"
-        android:layout_alignLeft="@+id/imageView1"
         android:layout_below="@+id/srestaurant"
         android:background="@android:color/black"
         android:visibility="visible" />
@@ -26,7 +25,6 @@
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imageView1"
         android:background="@color/list_item_background"
         android:gravity="center"
         android:textColor="@android:color/black" />
