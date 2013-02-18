@@ -9,13 +9,5 @@
         <item>Viikinkartano</item>
         <item>Tahka</item>
     </string-array>
-    
-    <string-array name="days">
-        <item>monday</item>
-        <item>tuesday</item>
-        <item>wednesday</item>
-        <item>thursday</item>
-        <item>friday</item>
-    </string-array>
 
 </resources>
