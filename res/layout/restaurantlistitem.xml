@@ -6,10 +6,12 @@
 
     <ImageView
         android:id="@+id/restlogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:paddingRight="10dp"
+        android:background="@color/list_item_background" />
 
     <View
         android:id="@+id/separator"
@@ -21,7 +23,7 @@
 
     <TextView
         android:id="@+id/srestaurant"
-        android:layout_width="260dp"
+        android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
