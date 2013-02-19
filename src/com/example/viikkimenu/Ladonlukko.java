@@ -1,7 +1,9 @@
 package com.example.viikkimenu;
 
+import android.content.Context;
 import android.text.format.DateFormat;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,30 +13,40 @@ import org.json.JSONObject;
 
 public class Ladonlukko extends MenuBuilder{
 
-	String menustr = "";
 	String[] days = {"monday","tuesday", "wednesday","thursday","friday"};
+	
+	public Ladonlukko(Context context) {
+		super(context);
+		
+		String date = DateFormat.format("yyyy/MM/dd", new Date()).toString();
+		this.url = "http://www.sodexo.fi/ruokalistat/output/weekly_json/440/"+date+"/fi";
+	}
+	
 	/**
      * Fetch and parse JSON formatted menu string from sodexo jsonfeed.
      * @return String 
      */
     public String fetchMenu(){
         
-        menu = "";
-        String content;
-        String date = DateFormat.format("yyyy/MM/dd", new Date()).toString();
+        menu = "";        
+        String cacheFileName = "Ladonlukko_"+Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
         
-        try {
-
-            url = "http://www.sodexo.fi/ruokalistat/output/weekly_json/440/"+date+"/fi";
-            Logger.getLogger("ViikkiMenu").log(Level.INFO, url);
-            content = getUrlContent(url);            
-            menu = ParseMenuStr(content);
-            Logger.getLogger("ViikkiMenu").log(Level.INFO, "url contents fetched.");
-            
+        try {	
+        	if(hasCache(cacheFileName)){
+        		menu = readCacheContents(cacheFileName);
+        		
+        		menuLog.log(Level.INFO, "got content from cache");
+        	}
+        	else{
+                Logger.getLogger("ViikkiMenu").log(Level.INFO, url);           
+                menu = ParseMenuStr(getContent(url));
+                writeCacheContents(cacheFileName, menu);
+         
+                menuLog.log(Level.INFO, "got content from internet.");
+        	}
         } catch (IOException ex) {
             Logger.getLogger("ViikkiMenu").log(Level.SEVERE, null, ex);
         }
-        
         return menu;
     }
     
@@ -46,8 +58,10 @@ public class Ladonlukko extends MenuBuilder{
      * @throws JSONException
      */
     public String ParseMenuStr(String content) {
-        
-		try {
+    	
+    	String menustr = "";
+		
+    	try {
 			JSONObject job = new JSONObject(content);
 			job = job.getJSONObject("menus");
 
@@ -67,7 +81,7 @@ public class Ladonlukko extends MenuBuilder{
 				menustr += "\n";
 			}
 		} catch (JSONException ex) {
-			Logger.getLogger("ViikkiMenu").log(Level.SEVERE, null, ex);
+			menuLog.log(Level.SEVERE, null, ex);
 		}
         return menustr;
     }

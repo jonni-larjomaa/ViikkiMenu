@@ -1,6 +1,7 @@
 package com.example.viikkimenu;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,12 +10,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.text.format.DateFormat;
 
 public class Viikinkartano extends MenuBuilder {
 
-	String menustr = "";
 	String[] days = {"monday","tuesday", "wednesday","thursday","friday"};
+	
+	public Viikinkartano(Context context) {
+		super(context);
+		
+		String date = DateFormat.format("yyyy/MM/dd", new Date()).toString();
+		url = "http://www.sodexo.fi/ruokalistat/output/weekly_json/494/"+date+"/fi";
+	}
 	
 	/**
      * Fetch and parse JSON formatted menu string from sodexo jsonfeed.
@@ -23,19 +31,21 @@ public class Viikinkartano extends MenuBuilder {
     public String fetchMenu(){
         
         menu = "";
-        String content;
-        String date = DateFormat.format("yyyy/MM/dd", new Date()).toString();
+        String filename = "Viikinkartano_"+Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
         
         try {
 
-            url = "http://www.sodexo.fi/ruokalistat/output/weekly_json/494/"+date+"/fi";
-            Logger.getLogger("ViikkiMenu").log(Level.INFO, url);
-            content = getUrlContent(url);            
-            menu = ParseMenuStr(content);
-            Logger.getLogger("ViikkiMenu").log(Level.INFO, "url contents fetched.");
-            
+            if(hasCache(filename)){
+            	menu = readCacheContents(filename);
+            	menuLog.log(Level.INFO,"read menu from cache");
+            }
+            else{
+            	menu = ParseMenuStr(getContent(url));
+            	writeCacheContents(filename, menu);
+                menuLog.log(Level.INFO, "read menu from internet");
+            }
         } catch (IOException ex) {
-            Logger.getLogger("ViikkiMenu").log(Level.SEVERE, null, ex);
+            menuLog.log(Level.SEVERE, null, ex);
         }
         
         return menu;
@@ -50,6 +60,8 @@ public class Viikinkartano extends MenuBuilder {
      */
     public String ParseMenuStr(String content) {
         
+    	String menustr = "";
+    	
 		try {
 			JSONObject job = new JSONObject(content);
 			job = job.getJSONObject("menus");

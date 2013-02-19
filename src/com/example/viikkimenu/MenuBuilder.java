@@ -1,8 +1,18 @@
 package com.example.viikkimenu;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import android.content.*;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -13,8 +23,15 @@ import org.apache.http.params.HttpConnectionParams;
 abstract public class MenuBuilder {
     
     protected String url,menu,content;
-
-    protected String getUrlContent(String url) throws IOException {
+    protected Context ctx;
+    protected static Logger menuLog = Logger.getLogger("ViikkiMenu");
+    
+    
+    public MenuBuilder(Context context){
+    	ctx = context;
+    }
+    
+    protected String getContent(String url) throws IOException {
 
         HttpClient client = new DefaultHttpClient();
         HttpGet get = new HttpGet(url);
@@ -23,10 +40,74 @@ abstract public class MenuBuilder {
         client.getParams().setIntParameter(HttpConnectionParams.CONNECTION_TIMEOUT, Integer.valueOf(10000));
 
         content = client.execute(get, new BasicResponseHandler());
-        Logger.getLogger("ViikkiMenu").log(Level.INFO, content);
+        
+        menuLog.log(Level.INFO, content);
         return content;
     }
 
+    protected boolean hasCache(String filename){
+    	
+    	File cacheFile = new File(ctx.getCacheDir(), filename);
+    	
+    	if(cacheFile.exists()){
+    		return true;
+    	}    	
+    	return false;
+    }
+    
+    protected String readCacheContents(String filename){
+		
+    	String line = "";
+    	StringBuilder contents = new StringBuilder("");
+    	File cacheFile = new File(ctx.getCacheDir(), filename);
+    	
+    	if(cacheFile.exists()){
+    		menuLog.log(Level.INFO,"reading from cache from file:"+cacheFile.getPath());
+    		
+    		try {
+    			
+				BufferedReader fl = new BufferedReader(
+									new InputStreamReader(
+									new FileInputStream(cacheFile)));
+				while((line = fl.readLine()) != null){
+					contents.append(line+"\n");
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}
+    	else{
+    		return contents.toString();
+    	}
+    	
+    	return contents.toString();
+    	
+    }
+    
+    protected void writeCacheContents(String filename, String contents){
+    	
+    	File cacheFile = new File(ctx.getCacheDir(), filename);
+    	
+    	menuLog.log(Level.INFO, "writing to file:"+cacheFile.getPath());
+    	
+    	try {
+    		if(!cacheFile.exists()){
+    			cacheFile.createNewFile();
+    		}
+			
+			OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(cacheFile));
+			
+			osw.write(contents);
+			osw.flush();
+			osw.close();
+			
+			menuLog.log(Level.INFO, "wrote content:"+contents);
+			
+		} catch (IOException ex) {
+			menuLog.log(Level.SEVERE,null,ex);
+		}
+    }
+    
     abstract public String fetchMenu();
     
     abstract public String ParseMenuStr(String content);
