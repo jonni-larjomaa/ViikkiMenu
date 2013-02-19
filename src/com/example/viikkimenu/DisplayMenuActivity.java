@@ -20,9 +20,10 @@ public class DisplayMenuActivity extends Activity {
 		// set the layout to be used.
 		setContentView(R.layout.displaymenu);
 		
-		// add menucreator objects to list.
+		// add menu creator objects to list.
 		amb.add(new Ladonlukko(this));
 		amb.add(new Viikinkartano(this));
+		amb.add(new Tahka(this));
 		
 		// get the data send through intent.
 		// restaurant name and the index int.
