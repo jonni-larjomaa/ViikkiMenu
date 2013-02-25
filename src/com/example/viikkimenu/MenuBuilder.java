@@ -60,7 +60,7 @@ abstract public class MenuBuilder {
     	File cacheFile = new File(ctx.getCacheDir(), filename);
     	
     	if(cacheFile.exists()){
-    		menuLog.log(Level.INFO,"reading from cache from file:"+cacheFile.getPath());
+    		menuLog.log(Level.INFO,"reading from cachefile: "+cacheFile.getPath());
     		
     		try {
     			

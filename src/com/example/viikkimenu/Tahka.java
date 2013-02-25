@@ -27,10 +27,12 @@ public class Tahka extends MenuBuilder {
 		try{
 			if(hasCache(filename)){
 				menu = readCacheContents(filename);
+				menuLog.log(Level.INFO,"read menu from cache");
 			}
 			else{	
 				menu = ParseMenuStr(getContent(url));
-				//writeCacheContents(filename, menu);
+				writeCacheContents(filename, menu);
+				menuLog.log(Level.INFO, "read menu from internet");
 			}
 		}
 		catch (IOException e){
