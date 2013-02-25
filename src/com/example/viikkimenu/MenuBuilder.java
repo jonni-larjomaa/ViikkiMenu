@@ -42,21 +42,11 @@ abstract public class MenuBuilder {
         menuLog.log(Level.INFO, content);
         return content;
     }
-
-    protected boolean hasCache(String filename){
-    	
-    	File cacheFile = new File(ctx.getCacheDir(), filename);
-    	
-    	if(cacheFile.exists()){
-    		return true;
-    	}    	
-    	return false;
-    }
     
     protected String readCacheContents(String filename){
 		
     	String line = "";
-    	StringBuilder contents = new StringBuilder("");
+    	StringBuilder contents = new StringBuilder();
     	File cacheFile = new File(ctx.getCacheDir(), filename);
     	
     	if(cacheFile.exists()){
@@ -70,16 +60,13 @@ abstract public class MenuBuilder {
 				while((line = fl.readLine()) != null){
 					contents.append(line+"\n");
 				}
+				fl.close();
+				
 			} catch (IOException e) {
-				e.printStackTrace();
+				menuLog.log(Level.SEVERE,"Cache file could not be read",e);
 			}
     	}
-    	else{
-    		return contents.toString();
-    	}
-    	
     	return contents.toString();
-    	
     }
     
     protected void writeCacheContents(String filename, String contents){
@@ -91,18 +78,17 @@ abstract public class MenuBuilder {
     	try {
     		if(!cacheFile.exists()){
     			cacheFile.createNewFile();
-    		}
-			
-			OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(cacheFile));
-			
-			osw.write(contents);
-			osw.flush();
-			osw.close();
-			
-			menuLog.log(Level.INFO, "wrote content:"+contents);
-			
+    			
+    			OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(cacheFile));
+    			
+    			osw.write(contents);
+    			osw.flush();
+    			osw.close();
+    			
+    			menuLog.log(Level.INFO, "created cache with content:"+contents);
+    		}			
 		} catch (IOException ex) {
-			menuLog.log(Level.SEVERE,null,ex);
+			menuLog.log(Level.SEVERE,"Something went wrong during cache writing",ex);
 		}
     }
     

@@ -33,21 +33,19 @@ public class Viikinkartano extends MenuBuilder {
         menu = "";
         String filename = "Viikinkartano_"+Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
         
-        try {
-
-            if(hasCache(filename)){
-            	menu = readCacheContents(filename);
-            	menuLog.log(Level.INFO,"read menu from cache");
-            }
-            else{
-            	menu = ParseMenuStr(getContent(url));
-            	writeCacheContents(filename, menu);
-                menuLog.log(Level.INFO, "read menu from internet");
-            }
-        } catch (IOException ex) {
-            menuLog.log(Level.SEVERE, null, ex);
-        }
-        
+        try{
+			if((menu = readCacheContents(filename)).length() > 1){
+				menuLog.log(Level.INFO,"read menu from cache");
+			}
+			else{	
+				menu = ParseMenuStr(getContent(url));
+				writeCacheContents(filename, menu);
+				menuLog.log(Level.INFO, "read menu from internet");
+			}
+		}
+		catch (IOException e){
+			menuLog.log(Level.INFO, e.toString());
+		}
         return menu;
     }
     

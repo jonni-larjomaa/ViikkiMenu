@@ -25,9 +25,8 @@ public class Tahka extends MenuBuilder {
 		String filename = "Tahka_"+Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
 		
 		try{
-			if(hasCache(filename)){
-				menu = readCacheContents(filename);
-				menuLog.log(Level.INFO,"read menu from cache");
+			if((menu = readCacheContents(filename)).length() > 1){
+				menuLog.log(Level.INFO,"read menu from cache: "+menu);
 			}
 			else{	
 				menu = ParseMenuStr(getContent(url));
@@ -53,7 +52,7 @@ public class Tahka extends MenuBuilder {
 		for(Element el : els){
 			
 			menuLog.log(Level.INFO,"element text: "+el.text()+"has nodename: "+el.nodeName());
-			menustr += el.text().replaceAll("br2n", "\n").replaceAll("br3n", "\n\n");
+			menustr += el.text().replaceAll("br2n", "\n").replaceAll("br3n", "\n");
 		}
 		return menustr;
 	}

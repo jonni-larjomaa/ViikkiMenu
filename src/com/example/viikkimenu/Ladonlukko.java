@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,24 +28,21 @@ public class Ladonlukko extends MenuBuilder{
     public String fetchMenu(){
         
         menu = "";        
-        String cacheFileName = "Ladonlukko_"+Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
+        String filename = "Ladonlukko_"+Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
         
-        try {	
-        	if(hasCache(cacheFileName)){
-        		menu = readCacheContents(cacheFileName);
-        		
-        		menuLog.log(Level.INFO, "got content from cache");
-        	}
-        	else{
-                Logger.getLogger("ViikkiMenu").log(Level.INFO, url);           
-                menu = ParseMenuStr(getContent(url));
-                writeCacheContents(cacheFileName, menu);
-         
-                menuLog.log(Level.INFO, "got content from internet.");
-        	}
-        } catch (IOException ex) {
-            Logger.getLogger("ViikkiMenu").log(Level.SEVERE, null, ex);
-        }
+        try{
+			if((menu = readCacheContents(filename)).length() > 1 ){
+				menuLog.log(Level.INFO,"read menu from cache: "+menu);
+			}
+			else{	
+				menu = ParseMenuStr(getContent(url));
+				writeCacheContents(filename, menu);
+				menuLog.log(Level.INFO, "read menu from internet");
+			}
+		}
+		catch (IOException e){
+			menuLog.log(Level.INFO, e.toString());
+		}
         return menu;
     }
     
