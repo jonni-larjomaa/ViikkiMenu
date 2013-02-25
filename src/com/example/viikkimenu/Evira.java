@@ -11,18 +11,18 @@ import org.jsoup.select.Elements;
 
 import android.content.Context;
 
-public class Tahka extends MenuBuilder {
+public class Evira extends MenuBuilder {
 
 	
-	public Tahka(Context context) {
+	public Evira(Context context) {
 		super(context);
-		url = "http://www.amica.fi/tahka";
+		url = "http://www.amica.fi/evira";
 	}
 
 	@Override
 	public String fetchMenu() {
 		
-		String filename = "Tahka_"+Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
+		String filename = Evira.class.getSimpleName()+"_"+Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
 		
 		try{
 			if((menu = readCacheContents(filename)).length() > 1){

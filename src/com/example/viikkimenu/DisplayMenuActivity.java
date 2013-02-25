@@ -24,6 +24,7 @@ public class DisplayMenuActivity extends Activity {
 		amb.add(new Ladonlukko(this));
 		amb.add(new Viikinkartano(this));
 		amb.add(new Tahka(this));
+		amb.add(new Evira(this));
 		
 		// get the data send through intent.
 		// restaurant name and the index int.
