@@ -20,7 +20,7 @@ import org.apache.http.params.HttpConnectionParams;
 
 abstract public class MenuBuilder {
     
-    protected String url,menu,content;
+    protected String url,menu,content,cache;
     protected Context ctx;
     protected static Logger menuLog = Logger.getLogger("ViikkiMenu");
     
@@ -29,6 +29,13 @@ abstract public class MenuBuilder {
     	ctx = context;
     }
     
+    /**
+     * fetch the content form designated url.
+     * 
+     * @param url
+     * @return String contents of the response as string.
+     * @throws IOException
+     */
     protected String getContent(String url) throws IOException {
 
         HttpClient client = new DefaultHttpClient();
@@ -42,7 +49,38 @@ abstract public class MenuBuilder {
         menuLog.log(Level.INFO, content);
         return content;
     }
+  
+    /**
+     * Fetch and parse JSON formatted menu string from sodexo jsonfeed.
+     * @return String 
+     */
+    public String fetchMenu(boolean revalidate){
+        
+        menu = "";
+        
+        
+        try{
+			if((menu = readCacheContents(cache)).length() > 1 && !revalidate){
+				menuLog.log(Level.INFO,"read menu from cache: "+menu);
+			}
+			else{	
+				menu = ParseMenuStr(getContent(url));
+				writeCacheContents(cache, menu);
+				menuLog.log(Level.INFO, "read menu from internet");
+			}
+		}
+		catch (IOException e){
+			menuLog.log(Level.INFO, e.toString());
+		}
+        return menu;
+    }
     
+    /**
+     * read the cached contents of menu.
+     * 
+     * @param filename
+     * @return 
+     */
     protected String readCacheContents(String filename){
 		
     	String line = "";
@@ -69,6 +107,12 @@ abstract public class MenuBuilder {
     	return contents.toString();
     }
     
+    /**
+     * write the cache contents to given file.
+     * 
+     * @param filename
+     * @param contents
+     */
     protected void writeCacheContents(String filename, String contents){
     	
     	File cacheFile = new File(ctx.getCacheDir(), filename);
@@ -78,21 +122,20 @@ abstract public class MenuBuilder {
     	try {
     		if(!cacheFile.exists()){
     			cacheFile.createNewFile();
+    		}
+    		
+    		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(cacheFile));
+    		
+    		osw.write(contents);
+    		osw.flush();
+    		osw.close();
     			
-    			OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(cacheFile));
-    			
-    			osw.write(contents);
-    			osw.flush();
-    			osw.close();
-    			
-    			menuLog.log(Level.INFO, "created cache with content:"+contents);
-    		}			
+    		menuLog.log(Level.INFO, "created cache with content:"+contents);
+    		
 		} catch (IOException ex) {
 			menuLog.log(Level.SEVERE,"Something went wrong during cache writing",ex);
 		}
     }
-    
-    abstract public String fetchMenu();
     
     abstract public String ParseMenuStr(String content);
 }
