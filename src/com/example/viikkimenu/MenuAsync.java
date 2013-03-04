@@ -29,7 +29,7 @@ public class MenuAsync extends AsyncTask<MenuBuilder, Void, String> {
 
 	@Override
 	protected String doInBackground(MenuBuilder... mb) {
-		return mb[0].fetchMenu();
+		return mb[0].fetchMenu(false);
 	}
 
 	@Override
@@ -37,7 +37,4 @@ public class MenuAsync extends AsyncTask<MenuBuilder, Void, String> {
 		tv.setText(result);
 		pd.dismiss();
 	}
-	
-	
-
 }

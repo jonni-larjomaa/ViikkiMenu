@@ -2,11 +2,8 @@ package com.example.viikkimenu;
 
 import java.util.ArrayList;
 
-import com.example.menus.Evira;
-import com.example.menus.Ladonlukko;
-import com.example.menus.MenuBuilder;
-import com.example.menus.Tahka;
-import com.example.menus.Viikinkartano;
+import com.example.menus.*;
+
 
 import android.os.*;
 import android.text.method.ScrollingMovementMethod;
@@ -31,6 +28,7 @@ public class DisplayMenuActivity extends Activity {
 		amb.add(new Viikinkartano(this));
 		amb.add(new Tahka(this));
 		amb.add(new Evira(this));
+		amb.add(new Gardenia(this));
 		
 		// get the data send through intent.
 		// restaurant name and the index int.
