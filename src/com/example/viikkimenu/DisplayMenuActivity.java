@@ -2,6 +2,12 @@ package com.example.viikkimenu;
 
 import java.util.ArrayList;
 
+import com.example.menus.Evira;
+import com.example.menus.Ladonlukko;
+import com.example.menus.MenuBuilder;
+import com.example.menus.Tahka;
+import com.example.menus.Viikinkartano;
+
 import android.os.*;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.*;

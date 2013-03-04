@@ -1,4 +1,4 @@
-package com.example.viikkimenu;
+package com.example.menus;
 
 import java.io.BufferedReader;
 import java.io.File;

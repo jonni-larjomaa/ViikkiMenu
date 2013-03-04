@@ -1,4 +1,4 @@
-package com.example.viikkimenu;
+package com.example.menus;
 
 import java.io.IOException;
 import java.util.Calendar;

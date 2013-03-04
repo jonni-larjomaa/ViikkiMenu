@@ -1,4 +1,4 @@
-package com.example.viikkimenu;
+package com.example.menus;
 
 import android.content.Context;
 import android.text.format.DateFormat;
