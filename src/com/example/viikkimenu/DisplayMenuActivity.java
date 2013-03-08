@@ -7,6 +7,7 @@ import com.example.menus.*;
 
 import android.os.*;
 import android.text.method.ScrollingMovementMethod;
+import android.view.*;
 import android.widget.*;
 import android.app.*;
 
@@ -14,7 +15,10 @@ public class DisplayMenuActivity extends Activity {
 
 	private String restname;
 	private int position;
-	private ArrayList<MenuBuilder> amb = new ArrayList<MenuBuilder>(); 
+	private ArrayList<MenuBuilder> amb = new ArrayList<MenuBuilder>();
+	private TextView menulist;
+	private ProgressDialog pd;
+	private MenuBuilder mb; 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,21 +43,27 @@ public class DisplayMenuActivity extends Activity {
 		// set title for restaurant name
 		setTitle(restname);
 		
-		// set menulist textView and have scrollingmovement enabled. 
-		TextView menulist = (TextView) findViewById(R.id.restaurantname);
+		menulist = (TextView) findViewById(R.id.restaurantname);
 		menulist.setMovementMethod(new ScrollingMovementMethod());
 		
-		// setup Progressdialog
-		ProgressDialog pd = new ProgressDialog(this);
+		pd = new ProgressDialog(this);
 				
 		// setup async call
 		MenuAsync ma = new MenuAsync(menulist,pd);
 		
-		// create object from the restaurant name string.
-		// all restaurant names has their reflection class.
-		MenuBuilder mb = amb.get(position);
+		mb = amb.get(position);
 		
 		// execute async task
 		ma.execute(mb);
+	}
+	
+	/**
+	 * OnClick implementation for data refresh on menu view.
+	 * @param v
+	 */
+	public void refresh(View v){
+		RevalidateASync ras = new RevalidateASync(menulist, pd);
+		mb = amb.get(position);
+		ras.execute(mb);
 	}
 }

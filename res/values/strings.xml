@@ -3,7 +3,8 @@
 
     <string name="app_name">Viikki Menu</string>
     <string name="title_activity_restaurant">Viikki Menu</string>
-
+	<string name="refresh">Päivitä Ruokalista</string>
+    
     <string-array name="restaurants">
         <item>Ladonlukko</item>
         <item>Viikinkartano</item>

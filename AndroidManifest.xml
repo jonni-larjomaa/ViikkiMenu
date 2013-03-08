@@ -4,14 +4,21 @@
     android:versionCode="1"
     android:versionName="1.0" android:installLocation="auto">
 
-    <uses-sdk
-        android:minSdkVersion="10"
-        android:targetSdkVersion="17" />
+    <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="17" />
+    
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    
+    <permission
+        android:name="com.example.mapdemo.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature"/>
+	
+	<uses-permission android:name="com.example.Viikkimenu.permission.MAPS_RECEIVE"/>
 
+    
     <application
+        android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
@@ -27,6 +34,8 @@
         <activity
             android:name="com.example.viikkimenu.DisplayMenuActivity" >
         </activity>
+        <meta-data
+    		android:name="com.google.android.maps.v2.API_KEY"
+    		android:value="AIzaSyCGnpLC-aWLQEBbfpVi_gFA4Erlfg9dZZw"/>
     </application>
-
 </manifest>
