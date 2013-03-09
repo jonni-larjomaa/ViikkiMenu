@@ -2,7 +2,7 @@ package com.example.viikkimenu;
 
 import java.util.ArrayList;
 
-import com.example.menus.*;
+import com.example.viikkimenu.menus.*;
 
 
 import android.os.*;

@@ -1,4 +1,4 @@
-package com.example.menus;
+package com.example.viikkimenu.menus;
 
 import java.util.Calendar;
 

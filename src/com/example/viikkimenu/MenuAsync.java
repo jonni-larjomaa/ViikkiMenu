@@ -2,7 +2,7 @@ package com.example.viikkimenu;
 
 
 
-import com.example.menus.MenuBuilder;
+import com.example.viikkimenu.menus.MenuBuilder;
 
 import android.app.*;
 import android.os.*;

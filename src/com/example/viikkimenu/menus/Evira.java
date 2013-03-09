@@ -1,4 +1,4 @@
-package com.example.menus;
+package com.example.viikkimenu.menus;
 
 import java.util.Calendar;
 import java.util.logging.Level;
@@ -10,14 +10,14 @@ import org.jsoup.select.Elements;
 
 import android.content.Context;
 
-public class Tahka extends MenuBuilder {
+public class Evira extends MenuBuilder {
 
 	
-	public Tahka(Context context) {
+	public Evira(Context context) {
 		super(context);
 		
 		cache = this.getClass().getSimpleName()+"_"+Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
-		url = "http://www.amica.fi/tahka";
+		url = "http://www.amica.fi/evira";
 	}
 
 	@Override
