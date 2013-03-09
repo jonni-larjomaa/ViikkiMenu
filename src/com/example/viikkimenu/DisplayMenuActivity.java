@@ -49,7 +49,7 @@ public class DisplayMenuActivity extends Activity {
 		pd = new ProgressDialog(this);
 				
 		// setup async call
-		MenuAsync ma = new MenuAsync(menulist,pd);
+		MenuAsync ma = new MenuAsync(menulist,pd,false);
 		
 		mb = amb.get(position);
 		
@@ -62,7 +62,7 @@ public class DisplayMenuActivity extends Activity {
 	 * @param v
 	 */
 	public void refresh(View v){
-		RevalidateASync ras = new RevalidateASync(menulist, pd);
+		MenuAsync ras = new MenuAsync(menulist, pd,true);
 		mb = amb.get(position);
 		ras.execute(mb);
 	}

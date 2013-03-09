@@ -10,12 +10,14 @@ import android.widget.*;
 
 public class MenuAsync extends AsyncTask<MenuBuilder, Void, String> {
 
-	TextView tv;
-	ProgressDialog pd;
+	private TextView tv;
+	private ProgressDialog pd;
+	private boolean revalidate;
 	
-	public MenuAsync(TextView t, ProgressDialog d){
+	public MenuAsync(TextView t, ProgressDialog d, boolean re){
 		tv = t;
 		pd = d;
+		revalidate = re;
 	}
 	
 	
@@ -29,7 +31,7 @@ public class MenuAsync extends AsyncTask<MenuBuilder, Void, String> {
 
 	@Override
 	protected String doInBackground(MenuBuilder... mb) {
-		return mb[0].fetchMenu(false);
+		return mb[0].fetchMenu(revalidate);
 	}
 
 	@Override
