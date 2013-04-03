@@ -44,24 +44,26 @@ public class Viikinkartano extends MenuBuilder {
 			// loop trhough days
 			for(int j=0;j < days[0].length; j++){
 				
-				JSONArray courses = job.getJSONArray(days[0][j]);
-				menustr += days[1][j]+":\n";
+				if(job.has(days[0][j])){
+					JSONArray courses = job.getJSONArray(days[0][j]);
+					menustr += days[1][j]+":\n";
 				
-				//loop through menu items.
-				for(int i=0; i < courses.length(); i++){
-				    JSONObject add = courses.getJSONObject(i);
-				    if(add.has("title_fi")){
-				    	menustr += add.getString("title_fi");
-				    }
-				    if(add.has("price")){
-				    	menustr += add.getString("price")+"€ ";
-				    }
-				    if(add.has("properties")){
-				    	menustr += add.getString("properties");
-				    }
-				    menustr += "\n";
+					//loop through menu items.
+					for(int i=0; i < courses.length(); i++){
+					    JSONObject add = courses.getJSONObject(i);
+					    if(add.has("title_fi")){
+					    	menustr += add.getString("title_fi");
+					    }
+					    if(add.has("price")){
+					    	menustr += add.getString("price")+"€ ";
+					    }
+					    if(add.has("properties")){
+					    	menustr += add.getString("properties");
+					    }
+					    menustr += "\n";
+					}
+					menustr += "\n";
 				}
-				menustr += "\n";
 			}
 		} catch (JSONException ex) {
 			Logger.getLogger("ViikkiMenu").log(Level.SEVERE, null, ex);
